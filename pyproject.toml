@@ -3,7 +3,7 @@ name = "plex-oauth"
 version = "1.0.0"
 description = "Flask app for Plex OAuth authentication"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "flask>=3.0.0",
     "requests>=2.31.0",
