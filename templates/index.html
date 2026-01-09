@@ -3,8 +3,8 @@
 {% block title %}{{ app_name }} - Authenticate with Plex{% endblock %}
 
 {% block content %}
-<h1>{{ app_name }}</h1>
-<p class="subtitle">Authenticate with your Plex account to get your access token for Kometa.</p>
+<h1 id="main-title">{{ app_name }}</h1>
+<p class="subtitle" id="main-subtitle">Authenticate with your Plex account to get your access token for Kometa.</p>
 
 <div class="info-box" id="instructions">
     <p>
@@ -25,8 +25,15 @@
         <p><strong>Email:</strong> <span id="email"></span></p>
     </div>
     <p style="margin: 20px 0;"><strong>Your Plex Access Token:</strong></p>
-    <div class="token-box" id="token-box"></div>
-    <button class="btn" onclick="copyToken()" style="margin-top: 15px;">Copy Token to Clipboard</button>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="token-box" id="token-box" style="flex: 1; margin: 0;"></div>
+        <button onclick="copyToken()" style="background: #e5a00d; color: #1f1f1f; border: none; border-radius: 8px; padding: 15px 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; min-width: 50px; height: 50px;" onmouseover="this.style.background='#cc8800'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#e5a00d'; this.style.transform='translateY(0)'" title="Copy to clipboard">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+        </button>
+    </div>
     <p id="copy-status" style="color: #4caf50; margin-top: 10px; display: none;">✓ Token copied to clipboard!</p>
     <p style="color: #aaa; margin-top: 15px;">Keep this token secure!</p>
 </div>
@@ -115,11 +122,15 @@ function checkAuthStatus() {
                 const resultContainer = document.getElementById('result-container');
                 const btn = document.getElementById('auth-btn');
                 const instructions = document.getElementById('instructions');
+                const mainTitle = document.getElementById('main-title');
+                const mainSubtitle = document.getElementById('main-subtitle');
                 
                 statusMsg.style.display = 'none';
                 resultContainer.style.display = 'block';
                 btn.style.display = 'none';
                 instructions.style.display = 'none';
+                mainTitle.style.display = 'none';
+                mainSubtitle.style.display = 'none';
                 
                 document.getElementById('username').textContent = data.username;
                 document.getElementById('email').textContent = data.email;
