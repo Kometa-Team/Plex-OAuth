@@ -4,9 +4,9 @@
 
 {% block content %}
 <h1>{{ app_name }}</h1>
-<p class="subtitle">Authenticate with your Plex account to get your access token for Kometa</p>
+<p class="subtitle">Authenticate with your Plex account to get your access token for Kometa.</p>
 
-<div class="info-box">
+<div class="info-box" id="instructions">
     <p>
         <strong>What happens next:</strong><br>
         1. Click the button below<br>
@@ -26,7 +26,9 @@
     </div>
     <p style="margin: 20px 0;"><strong>Your Plex Access Token:</strong></p>
     <div class="token-box" id="token-box"></div>
-    <p style="color: #aaa; margin-top: 10px;">Copy this token and use it with Kometa. Keep it secure!</p>
+    <button class="btn" onclick="copyToken()" style="margin-top: 15px;">Copy Token to Clipboard</button>
+    <p id="copy-status" style="color: #4caf50; margin-top: 10px; display: none;">✓ Token copied to clipboard!</p>
+    <p style="color: #aaa; margin-top: 15px;">Keep this token secure!</p>
 </div>
 
 <script>
@@ -112,10 +114,12 @@ function checkAuthStatus() {
                 const statusMsg = document.getElementById('status-message');
                 const resultContainer = document.getElementById('result-container');
                 const btn = document.getElementById('auth-btn');
+                const instructions = document.getElementById('instructions');
                 
                 statusMsg.style.display = 'none';
                 resultContainer.style.display = 'block';
                 btn.style.display = 'none';
+                instructions.style.display = 'none';
                 
                 document.getElementById('username').textContent = data.username;
                 document.getElementById('email').textContent = data.email;
@@ -138,6 +142,32 @@ function checkAuthStatus() {
         .catch(error => {
             console.error('Error checking auth status:', error);
         });
+}
+
+function copyToken() {
+    const tokenBox = document.getElementById('token-box');
+    const copyStatus = document.getElementById('copy-status');
+    
+    // Create a temporary textarea to copy from
+    const textarea = document.createElement('textarea');
+    textarea.value = tokenBox.textContent;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+        document.execCommand('copy');
+        copyStatus.style.display = 'block';
+        setTimeout(() => {
+            copyStatus.style.display = 'none';
+        }, 3000);
+    } catch (err) {
+        console.error('Failed to copy token:', err);
+        alert('Failed to copy token. Please select and copy manually.');
+    } finally {
+        document.body.removeChild(textarea);
+    }
 }
 </script>
 {% endblock %}
