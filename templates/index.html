@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{{ app_name }} - Authenticate with Plex{% endblock %}
+
+{% block content %}
+<h1>{{ app_name }}</h1>
+<p class="subtitle">Authenticate with your Plex account to get your access token for Kometa</p>
+
+<div class="info-box">
+    <p>
+        <strong>What happens next:</strong><br>
+        1. Click the button below<br>
+        2. Sign in with your Plex account<br>
+        3. Authorize this application<br>
+        4. Copy your access token to use with Kometa
+    </p>
+</div>
+
+<a href="{{ url_for('auth_start') }}" class="btn">Authenticate with Plex</a>
+{% endblock %}
